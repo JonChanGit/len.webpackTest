@@ -8,3 +8,4 @@
 - {entry file}:入口文件的路径，本文中就是src/entery.js的路径；
 - {destination for bundled file}:填写打包后存放的路径。
 - ```webpack src/entery.js dist/bundle.js```
+
