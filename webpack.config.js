@@ -1,5 +1,6 @@
 const path = require('path');
-const uglify = require('uglifyjs-webpack-plugin');//引入压缩JS代码插件
+//　const uglify = require('uglifyjs-webpack-plugin');//引入压缩JS代码插件　　不建议在开发环境下启用JS压缩
+const htmlPlugin= require('html-webpack-plugin');
 
 module.exports={
 	//入口文件的配置项
@@ -25,7 +26,18 @@ module.exports={
 	},
 	//插件，用于生产模版和各项功能
 	plugins:[
-		new uglify()
+		//new uglify()//不建议在开发环境下启用JS压缩
+		new htmlPlugin({
+			minify:{
+				// 是对html文件进行压缩，removeAttrubuteQuotes是却掉属性的双引号。
+				removeAttributeQuotes:true
+			},
+			// 为了开发中js有缓存效果，所以加入hash，这样可以有效避免缓存JS。
+			hash:true,
+			// 是要打包的html模版路径和文件名称。
+			template:'./src/index.html'
+
+		})
 	],
 	//配置webpack开发服务功能
 	devServer:{
