@@ -2,3 +2,8 @@ body{
 	background-color: #000;
 	color: white;
 }
+.ico{
+	background-image: url("../img/img.jpg");
+	width: 550px;
+	height: 557px;
+}

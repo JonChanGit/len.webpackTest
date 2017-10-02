@@ -1,5 +1,5 @@
 const path = require('path');
-//　const uglify = require('uglifyjs-webpack-plugin');//引入压缩JS代码插件　　不建议在开发环境下启用JS压缩
+const uglify = require('uglifyjs-webpack-plugin');//引入压缩JS代码插件　　不建议在开发环境下启用JS压缩
 const htmlPlugin= require('html-webpack-plugin');
 
 module.exports={
@@ -21,6 +21,18 @@ module.exports={
 			{
 				test: /\.css$/,
 				use: [ 'style-loader', 'css-loader' ]
+			},
+			{
+				// test:/\.(png|jpg|gif)/是匹配图片文件后缀名称。
+				test:/\.(png|jpg|gif)/ ,
+				// use：是指定使用的loader和loader的配置参数。
+				use:[{
+					loader:'url-loader',
+					options:{
+						// limit：是把小于500000B的文件打成Base64的格式，写入JS。
+						limit:500000
+					}
+				}]
 			}
 		]
 	},
