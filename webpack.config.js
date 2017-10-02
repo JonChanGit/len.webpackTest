@@ -1,6 +1,11 @@
 const path = require('path');
-const uglify = require('uglifyjs-webpack-plugin');//引入压缩JS代码插件　　不建议在开发环境下启用JS压缩
+// const uglify = require('uglifyjs-webpack-plugin');//引入压缩JS代码插件　　不建议在开发环境下启用JS压缩
 const htmlPlugin= require('html-webpack-plugin');
+const extractTextPlugin = require("extract-text-webpack-plugin");
+
+var website ={
+	publicPath:"http://localhost:8080"
+}
 
 module.exports={
 	//入口文件的配置项
@@ -13,14 +18,18 @@ module.exports={
 		//打包的路径文职
 		path:path.resolve(__dirname,'dist'),//获取了项目的绝对路径
 		//打包的文件名称
-		filename:'bundle.js'
+		filename:'bundle.js',
+		publicPath:website.publicPath // 在 dev 环境下请不要启用
 	},
 	//模块：例如解读CSS,图片如何转换，压缩
 	module:{
 		rules: [
 			{
 				test: /\.css$/,
-				use: [ 'style-loader', 'css-loader' ]
+				use: extractTextPlugin.extract({
+					fallback: "style-loader",
+					use: "css-loader"
+				})
 			},
 			{
 				// test:/\.(png|jpg|gif)/是匹配图片文件后缀名称。
@@ -49,7 +58,9 @@ module.exports={
 			// 是要打包的html模版路径和文件名称。
 			template:'./src/index.html'
 
-		})
+		}),
+		// 这里的/css/index.css是分离后的路径位置。 包装代码：还要修改原来我们的style-loader和css-loader。
+		new extractTextPlugin("/css/index.css")
 	],
 	//配置webpack开发服务功能
 	devServer:{
