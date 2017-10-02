@@ -39,9 +39,15 @@ module.exports={
 					loader:'url-loader',
 					options:{
 						// limit：是把小于500000B的文件打成Base64的格式，写入JS。
-						limit:500000
+						limit:500000,
+						// 打包后的图片放到images文件夹下
+						outputPath:'images/',
 					}
 				}]
+			},
+			{
+				test: /\.(htm|html)$/i,
+				use:[ 'html-withimg-loader']
 			}
 		]
 	},
